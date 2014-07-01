@@ -1,0 +1,7 @@
+<form class="form-auth form-signup" role="form" {{action 'signup' on='submit'}}>
+  <h2 class="form-auth-heading">Please sign up</h2>
+  {{input class="form-control" type="username" required="true" autofocus="true" placeholder="Username" value=username}}
+  {{input class="form-control" type="password" required="true" autofocus="true" placeholder="Password" value=password}}
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+  {{#if error}}<div class="alert alert-danger">Error: {{error}}.</div>{{/if}}
+</form>

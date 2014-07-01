@@ -12,6 +12,10 @@ var config = require('./config');
 var app = express();
 var config = require('./config');
 
+var knexConfig = require('../knexfile.js')[config.env];
+var knex = require('knex')(knexConfig);
+var bookshelf = require('bookshelf')(knex);
+
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
   app.use(connectLivereload({ port: process.env.LIVERELOAD_PORT || 35729 }));
@@ -27,6 +31,47 @@ if (config.env === 'production') {
 }
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+
+var User, Token;
+User = bookshelf.Model.extend({
+  tokens: function() {
+    return this.hasMany(Token);
+  },
+  tableName: 'users'
+});
+Token = bookshelf.Model.extend({
+  user: function() {
+    return this.belongsTo(User);
+  },
+  tableName: 'tokens'
+});
+
+var admit = require('admit-one')('bookshelf', {
+  bookshelf: { modelClass: User }
+});
+
+var api = express.Router();
+
+api.post('/users', admit.create, function(req, res) {
+  // user accessible via req.auth.user
+  res.json({ user: req.auth.user });
+});
+
+api.post('/sessions', admit.authenticate, function(req, res) {
+  // user accessible via req.auth.user
+  res.json({ status: 'ok' });
+});
+
+// all routes defined from here on will require authorization
+api.use(admit.authorize);
+api.delete('/sessions/current', admit.invalidate, function(req, res) {
+  if (req.auth.user) { throw new Error('Session not invalidated.'); }
+  res.json({ status: 'ok' });
+});
+
+// application routes
+app.use('/api', api);
 
 // expose app
 module.exports = app;
