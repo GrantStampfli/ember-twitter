@@ -14,8 +14,19 @@ describe('app', function() {
 		  username: 'fake-username',
 		  token: 'fake-token'
 		});
-		it('has one passing test', function() {});
-  	console.log(App.Posts.FIXTURES);
- 	 	it('will have more tests');
+	});
+	afterEach(function() {
+		App.reset();
+	});
+	describe('profile page', function() {
+		beforeEach(function() {
+			visit('profile');
+		});
+		it('is on profile page', function() {
+			expect(currentRouteName()).to.eql('profile');
+		});
+		it('shows posts from current user', function() {
+			expect(find('author').text()).to.eql('fake-username');
+		});
 	});
 });
