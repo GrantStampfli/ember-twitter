@@ -61,6 +61,15 @@ api.post('/sessions', admit.authenticate, function(req, res) {
   res.json({ status: 'ok' });
 });
 
+api.get('/posts', function(req, res){
+  res.json({ posts:[
+  { id:1, author: 0, date: "2014-07-01", "content": "this is some content from Ariel"},
+  { id:2, author: 1, date: "2014-06-05", "content": "this is some content from Tian"},
+  { id:3, author: 2, date: "2014-05-05", "content": "this is some content from Grant"}
+]
+});
+});
+
 // all routes defined from here on will require authorization
 api.use(admit.authorize);
 api.delete('/sessions/current', admit.invalidate, function(req, res) {
