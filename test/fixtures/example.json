@@ -1,1 +1,6 @@
-{ "example": "fixture data" }
+{"posts":[
+	{ "id":1, "author": "Ariel", "date": "2014-07-01", "content": "this is some content from Ariel"},
+	{ "id":2, "author": "Tian", "date": "2014-06-05", "content": "this is some content from Tian"},
+	{ "id":3, "author": "Grant", "date": "2014-05-05", "content": "this is some content from Grant"}
+]
+}
