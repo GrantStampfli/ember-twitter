@@ -8,13 +8,11 @@ var methodOverride = require('method-override');
 var compression = require('compression');
 var favicon = require('serve-favicon');
 var config = require('./config');
-
-var app = express();
-var config = require('./config');
-
 var knexConfig = require('../knexfile.js')[config.env];
 var knex = require('knex')(knexConfig);
 var bookshelf = require('bookshelf')(knex);
+
+var app = express();
 
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');

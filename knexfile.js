@@ -4,7 +4,7 @@ var connection = process.env.DATABASE_URL || {
   host     : process.env.DATABASE_HOST     || '127.0.0.1',
   user     : process.env.DATABASE_USER     || '',
   password : process.env.DATABASE_PASSWORD || '',
-  database : process.env.DATABASE_NAME     || 'admit-one-bookshelf-example'
+  database : process.env.DATABASE_NAME     || 'users'
 };
 
 module.exports = {
