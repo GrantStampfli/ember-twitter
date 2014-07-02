@@ -1,5 +1,3 @@
-/* global Ember: true */
-
 'use strict';
 
 

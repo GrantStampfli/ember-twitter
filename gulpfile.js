@@ -25,8 +25,11 @@ var paths = (function() {
     'src.app.static': [
       'app/**/*',
       '!app/scripts/**/*',
+      '!app/templates/**/*',
+      '!app/templates',
       '!app/styles/**/*',
-      '!app/bower_components/**/*'
+      '!app/bower_components/**/*',
+      '!app/bower_components'
     ],
     'src.app.scripts': ['app/scripts/**/*.js'],
     'src.app.scripts.entry': ['app/scripts/application.js'],
@@ -535,7 +538,7 @@ gulp.task('lint', function() {
   return gulp.src(src)
     .pipe($.cached('linting'))
     .pipe($.jshint())
-    .pipe($.jshint.reporter('default'));
+    .pipe($.jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('clean', ['.clean:dev']);

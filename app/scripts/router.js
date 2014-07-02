@@ -1,4 +1,3 @@
-/* global Ember: false */
 'use strict';
 
 module.exports = function(App){

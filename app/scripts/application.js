@@ -1,4 +1,3 @@
-/* global Ember: false, DS: true */
 'use strict';
 
 var App = window.App = Ember.Application.create();

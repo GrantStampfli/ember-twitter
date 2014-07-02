@@ -1,4 +1,3 @@
-/* global DS: true */
 'use strict';
 
 module.exports = function(App){
