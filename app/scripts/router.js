@@ -1,9 +1,6 @@
 'use strict';
 
 module.exports = function(App){
-
-  Ember.AdmitOne.setup();
-
   App.Router.map(function() {
     this.route('signup');
     this.route('login');

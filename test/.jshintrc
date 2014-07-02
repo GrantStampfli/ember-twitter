@@ -40,7 +40,8 @@
     "andThen": true,
     "currentRouteName": true,
     "currentPath": true,
-    "currentURL": true
+    "currentURL": true,
+    "applicationContainer": true
   },
   "expr": true
 }

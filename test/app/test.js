@@ -1,13 +1,21 @@
-/* global describe, it, App, DS */
 'use strict';
 
-var fixture = require('./fixtures/example.json');
 
-App.ApplicationAdapter = DS.LSAdapter.extend({
+App.ApplicationAdapter = DS.FixtureAdapter.extend({
 	namespace: 'ember-twitter'
 });
+App.Posts.FIXTURES = __fixture('example').posts;
 
 describe('app', function() {
-  it('has one passing test', function() {});
-  it('will have more tests');
+	beforeEach(function() {
+		var container = applicationContainer();
+		var session = container.lookup('auth-session:main');
+		session.set('content', {
+		  username: 'fake-username',
+		  token: 'fake-token'
+		});
+		it('has one passing test', function() {});
+  	console.log(App.Posts.FIXTURES);
+ 	 	it('will have more tests');
+	});
 });

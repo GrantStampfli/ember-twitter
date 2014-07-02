@@ -1,6 +1,8 @@
 'use strict';
 
 var App = window.App = Ember.Application.create();
+App.AdmitOneContainers = {}; // overridable by tests
+Ember.AdmitOne.setup({ containers: App.AdmitOneContainers });
 
 require('./models.js')(App);
 require('./router.js')(App);
