@@ -1,6 +1,10 @@
 <div class="profile">
-<h1>I'm a profile page.</h1>
-  {{author}}{{date}}
-  <br/>
-  {{content}}
+	<h1>I'm a profile page.</h1>
+	<div>
+	  {{#each}}
+	  	{{author}}{{date}}
+	  	<br/>
+	  	{{content}}
+	  {{/each}}
+	</div>
 </div>

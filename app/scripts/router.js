@@ -10,7 +10,7 @@ module.exports = function(App){
 
   App.ProfileRoute = Ember.Route.extend(Ember.AdmitOne.AuthenticatedRouteMixin, {
     model: function() {
-      return this.store.find('Posts');
+      return this.store.find('post');
     }
   });
 
@@ -40,3 +40,5 @@ module.exports = function(App){
     }
   });
 };
+
+
