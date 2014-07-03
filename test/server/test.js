@@ -1,5 +1,5 @@
 'use strict';
-
+var expect = require('chai').expect;
 var util = require('util');
 var bluebird = require('bluebird'), Promise = bluebird;
 var request = require('request'),
@@ -23,9 +23,6 @@ describe('server', function() {
   it('will get posts/barks', function(done){
 		var fixture = __fixture('example');
 		requestFixture(fixture).spread(function(response, body){
-			console.log(response);
-  		console.log(body);
-
   		var json = JSON.parse(body);
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);
