@@ -4,7 +4,7 @@ var connection = process.env.DATABASE_URL || {
   host     : process.env.DATABASE_HOST     || '127.0.0.1',
   user     : process.env.DATABASE_USER     || '',
   password : process.env.DATABASE_PASSWORD || '',
-  database : process.env.DATABASE_NAME     || 'users'
+  database : process.env.DATABASE_NAME     || 'barks'
 };
 
 module.exports = {
@@ -17,7 +17,7 @@ module.exports = {
   test: {
     client: 'postgresql',
     connection: {
-      database : 'users_test'
+      database : 'barks_test'
     }
   },
 

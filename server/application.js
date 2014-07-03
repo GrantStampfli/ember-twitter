@@ -31,10 +31,13 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 
-var User, Token;
+var User, Token, Bark;
 User = bookshelf.Model.extend({
   tokens: function() {
     return this.hasMany(Token);
+  },
+  barks: function() {
+    return this.hasMany(Bark);
   },
   tableName: 'users'
 });
@@ -43,6 +46,12 @@ Token = bookshelf.Model.extend({
     return this.belongsTo(User);
   },
   tableName: 'tokens'
+});
+Bark = bookshelf.Model.extend({
+  user: function() {
+    return this.belongsTo(User);
+  },
+  tableName: 'barks'
 });
 
 var admit = require('admit-one')('bookshelf', {
