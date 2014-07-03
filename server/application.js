@@ -62,11 +62,11 @@ api.post('/sessions', admit.authenticate, function(req, res) {
 });
 
 api.get('/barks', function(req, res){
-  res.json({bark: {
+  res.json({bark: [{
         id: 12,
         content: 'I\'m really excited about using this new Barker service!',
         author: 1
-      },
+      }],
       users: [
         { id:1, username: 'Ariel', date: '2014-07-01'},
         { id:2, username: 'Tian', date: '2014-06-05'},

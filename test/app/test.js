@@ -29,8 +29,9 @@ describe('app', function() {
 		it('is on profile page', function() {
 			expect(currentRouteName()).to.eql('profile');
 		});
-		it.skip('shows posts from current user', function() {
-			expect(find('author').text()).to.eql('fake-username');
+		it('shows posts from current user', function() {
+			expect(find('ul.barkContent li:first').text()).to
+			.eql('I\'m really excited about using this new Barker service!');
 		});
 	});
 });
