@@ -1,7 +1,7 @@
 'use strict';
 var expect = require('chai').expect;
 var util = require('util');
-var bluebird = require('bluebird'), Promise = bluebird;
+var bluebird = require('bluebird'); /*Promise = bluebird*/
 var request = require('request'),
     requestAsync = bluebird.promisify(request, request);
 var app = require('../../server/application');
