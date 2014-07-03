@@ -14,6 +14,8 @@ module.exports = {
     connection: connection
   },
 
+//$ NODE_ENV='test' ./node_modules/.bin/knex migrate:latest
+
   test: {
     client: 'postgresql',
     connection: {

@@ -24,14 +24,12 @@ describe('server', function() {
 		var fixture = __fixture('example');
 		requestFixture(fixture).spread(function(response, body){
   		var json = JSON.parse(body);
-  		console.log(body);
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);
   });
   it.skip('will post barks', function(done){
 		var fixture = __fixture('postBark');
 		requestFixture(fixture).spread(function(response, body){
-			console.log(body);
   		var json = JSON.parse(body);
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);

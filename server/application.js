@@ -76,18 +76,22 @@ api.post('/barks', function(req, res) {
 });
 
 api.get('/barks', function(req, res){
-  res.json({bark: [{
-        id: 12,
-        content: 'I\'m really excited about using this new Barker service!',
-        author: 1
-      }],
-      users: [
-        { id:1, username: 'Ariel', date: '2014-07-01'},
-        { id:2, username: 'Tian', date: '2014-06-05'},
-        { id:3, username: 'Grant', date: '2014-05-05'},
-        { id:4, username: 'wbyoung', date: '2014-07-01'}
-      ]
-  });
+  Bark.fetchAll()
+  .then(function(collection) {
+    res.json({bark: collection.toJSON()});
+  }).done();
+  // res.json({bark: [{
+  //       id: 12,
+  //       content: 'I\'m really excited about using this new Barker service!',
+  //       author: 1
+  //     }],
+  //     users: [
+  //       { id:1, username: 'Ariel', date: '2014-07-01'},
+  //       { id:2, username: 'Tian', date: '2014-06-05'},
+  //       { id:3, username: 'Grant', date: '2014-05-05'},
+  //       { id:4, username: 'wbyoung', date: '2014-07-01'}
+  //     ]
+  // });
 });
 
 
