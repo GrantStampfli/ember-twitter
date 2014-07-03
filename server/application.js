@@ -70,6 +70,11 @@ api.post('/sessions', admit.authenticate, function(req, res) {
   res.json({ status: 'ok' });
 });
 
+api.post('/barks', function(req, res) {
+  // TODO Write bark to database
+  res.json({});
+});
+
 api.get('/barks', function(req, res){
   res.json({bark: [{
         id: 12,

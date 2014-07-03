@@ -20,9 +20,18 @@ var requestFixture = function(fixture) {
 describe('server', function() {
 	before(function(done) { this.server = app.listen(port, function() { done(); }); });
 	after(function(done) { this.server.close(done); });
-  it('will get posts/barks', function(done){
+  it('will get barks', function(done){
 		var fixture = __fixture('example');
 		requestFixture(fixture).spread(function(response, body){
+  		var json = JSON.parse(body);
+  		console.log(body);
+  		expect(json).to.eql(fixture.response.json);
+  	}).done(function(){ done(); },done);
+  });
+  it.skip('will post barks', function(done){
+		var fixture = __fixture('postBark');
+		requestFixture(fixture).spread(function(response, body){
+			console.log(body);
   		var json = JSON.parse(body);
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);

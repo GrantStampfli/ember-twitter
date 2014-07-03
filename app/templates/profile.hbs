@@ -1,6 +1,10 @@
 <div class="profile">
 	<h1>I'm a profile page.</h1>
 	<div>
+		{{input type="text" id="newBark" value=inputBark placeholder="Start Barking!"}}
+		<button id="barkButton">Bark!</button> 
+	</div>
+	<div>
 	  {{#each}}
 	  	<h3 class="author">{{author}}{{date}}</h3>
 	  	<br/>
