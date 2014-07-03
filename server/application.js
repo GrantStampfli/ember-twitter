@@ -57,7 +57,7 @@ api.post('/barks', function(req, res) {
 api.get('/barks', function(req, res){
   Bark.fetchAll()
   .then(function(collection) {
-    res.json({bark: collection.toJSON()});
+    res.json({barks: collection.toJSON()});
   }).done();
   // res.json({bark: [{
   //       id: 12,

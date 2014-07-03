@@ -9,7 +9,8 @@ var models = require('../../server/models');
 var port = 383273;
 var baseURL = util.format('http://localhost:%d', port);
 
-var Bark = models.Bark;
+var Bark = models.Bark,
+	  User = models.User;
 
 var requestFixture = function(fixture) {
 	var requestOptions = {
@@ -26,9 +27,37 @@ describe('server', function() {
   it('will get barks', function(done){
 		var fixture = __fixture('example');
 
+		var userSavePromises = function() {
+			return fixture.response.json.users.map(function(user) {
+				var create = {
+					username: user.username,
+					passwordDigest: 'digest'
+				};
+				return User.forge(create).save();
+			});
+		};
+
+		var barkSavePromises = function() {
+			return fixture.response.json.barks.map(function(bark) {
+				var create = {
+					content: bark.content,
+					author_id: bark.author
+				};
+				return Bark.forge(create).save();
+			});
+		};
+		// Bark.forge({}).save().then(function(bark) {
+
+		// }).done();
 		// create barks
 
-		requestFixture(fixture).spread(function(response, body){
+		Promise.all(userSavePromises()).then(function() {
+			return Promise.all(barkSavePromises());
+		})
+		.then(function() {
+			return requestFixture(fixture);
+		})
+		.spread(function(response, body){
   		var json = JSON.parse(body);
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);
