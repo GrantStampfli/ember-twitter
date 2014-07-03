@@ -13,7 +13,7 @@
       "barks": [{
         "id": 12,
         "content": "I'm really excited about using this new Barker service!",
-        "author_id": 1
+        "author": 1
       }],
       "users": [
 				{ "id":1, "username": "Ariel", "date": "2014-07-01"}
