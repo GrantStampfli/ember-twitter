@@ -1,4 +1,5 @@
 'use strict';
+var fixture = __fixture('example');
 
 describe('app', function() {
 	before(function () {
@@ -20,9 +21,9 @@ describe('app', function() {
 	});
 	describe('profile page', function() {
 		beforeEach(function() {
-		 	this.server.respondWith('GET', '/api/posts',
+		 	this.server.respondWith(fixture.request.method, fixture.request.url,
 		 		[200, { 'Content-Type': 'application/json' },
-		 		 JSON.stringify(__fixture('example'))]);
+		 		 JSON.stringify(fixture.response.json)]); 
 			visit('profile');
 		});
 		it('is on profile page', function() {

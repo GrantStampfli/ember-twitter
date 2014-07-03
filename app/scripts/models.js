@@ -8,7 +8,7 @@ module.exports = function(App){
 	  password: attr('string')
 	});
 
-	App.Post = DS.Model.extend({
+	App.Bark = DS.Model.extend({
 		author: DS.belongsTo('user'),
 		date: attr('date'),
 		content: attr('string')
