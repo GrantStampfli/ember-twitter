@@ -8,11 +8,12 @@ var methodOverride = require('method-override');
 var compression = require('compression');
 var favicon = require('serve-favicon');
 var config = require('./config');
-var knexConfig = require('../knexfile.js')[config.env];
-var knex = require('knex')(knexConfig);
-var bookshelf = require('bookshelf')(knex);
 
 var app = express();
+
+var models = require('./models'),
+    User = models.User,
+    Bark = models.Bark;
 
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
@@ -31,28 +32,6 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 
-var User, Token, Bark;
-User = bookshelf.Model.extend({
-  tokens: function() {
-    return this.hasMany(Token);
-  },
-  barks: function() {
-    return this.hasMany(Bark);
-  },
-  tableName: 'users'
-});
-Token = bookshelf.Model.extend({
-  user: function() {
-    return this.belongsTo(User);
-  },
-  tableName: 'tokens'
-});
-Bark = bookshelf.Model.extend({
-  user: function() {
-    return this.belongsTo(User);
-  },
-  tableName: 'barks'
-});
 
 var admit = require('admit-one')('bookshelf', {
   bookshelf: { modelClass: User }
