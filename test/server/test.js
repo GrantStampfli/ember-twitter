@@ -51,10 +51,6 @@ describe('server', function() {
 				return Bark.forge(create).save();
 			});
 		};
-		// Bark.forge({}).save().then(function(bark) {
-
-		// }).done();
-		// create barks
 
 		Promise.all(userSavePromises()).then(function(users) {
 			return Promise.all(barkSavePromises(users));
