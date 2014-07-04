@@ -17,7 +17,6 @@ module.exports = {
 //$ NODE_ENV='test' ./node_modules/.bin/knex migrate:latest
 
   test: {
-    debug: true,
     client: 'postgresql',
     connection: {
       database : 'barks_test'
