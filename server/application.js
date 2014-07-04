@@ -55,14 +55,17 @@ api.post('/barks', function(req, res) {
 });
 
 api.get('/barks', function(req, res){
-  Bark.fetchAll()
+  Bark.fetchAll({ withRelated: 'author' })
   .then(function(collection) {
+    var users = [];
     var barks = collection.toJSON().map(function(model) {
+      delete model.author.passwordDigest;
+      users.push(model.author);
       model.author = model.author_id;
       delete model.author_id;
       return model;
     });
-    res.json({barks: barks});
+    res.json({barks: barks, users: users });
   }).done();
   // res.json({bark: [{
   //       id: 12,

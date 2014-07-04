@@ -24,6 +24,9 @@ var requestFixture = function(fixture) {
 describe('server', function() {
 	before(function(done) { this.server = app.listen(port, function() { done(); }); });
 	after(function(done) { this.server.close(done); });
+	afterEach(function(done) {
+		models._bookshelf.knex('barks').del().then(function() { done(); }, done);
+	});
   it('will get barks', function(done){
 		var fixture = __fixture('example');
 
@@ -33,15 +36,17 @@ describe('server', function() {
 					username: user.username,
 					passwordDigest: 'digest'
 				};
-				return User.forge(create).save();
+				return User.forge(create).save().then(function(author) {
+					return author;
+				});
 			});
 		};
 
-		var barkSavePromises = function() {
-			return fixture.response.json.barks.map(function(bark) {
+		var barkSavePromises = function(users) {
+			return fixture.response.json.barks.map(function(bark, idx) {
 				var create = {
 					content: bark.content,
-					author_id: bark.author
+					author_id: users[idx].id
 				};
 				return Bark.forge(create).save();
 			});
@@ -51,14 +56,17 @@ describe('server', function() {
 		// }).done();
 		// create barks
 
-		Promise.all(userSavePromises()).then(function() {
-			return Promise.all(barkSavePromises());
+		Promise.all(userSavePromises()).then(function(users) {
+			return Promise.all(barkSavePromises(users));
 		})
 		.then(function() {
 			return requestFixture(fixture);
 		})
 		.spread(function(response, body){
   		var json = JSON.parse(body);
+  		json.barks[0].id = fixture.response.json.barks[0].id;
+  		json.barks[0].author = fixture.response.json.barks[0].author;
+  		json.users[0].id = fixture.response.json.users[0].id;
   		expect(json).to.eql(fixture.response.json);
   	}).done(function(){ done(); },done);
   });

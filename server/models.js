@@ -22,8 +22,8 @@ Token = bookshelf.Model.extend({
   tableName: 'tokens'
 });
 Bark = bookshelf.Model.extend({
-  user: function() {
-    return this.belongsTo(User);
+  author: function() {
+    return this.belongsTo(User, 'author_id');
   },
   tableName: 'barks'
 });
@@ -31,5 +31,6 @@ Bark = bookshelf.Model.extend({
 module.exports = {
 	User: User,
 	Token: Token,
-	Bark: Bark
+	Bark: Bark,
+	_bookshelf: bookshelf // only for testing
 };
