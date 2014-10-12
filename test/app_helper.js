@@ -1,23 +1,5 @@
 'use strict';
-// use ephemeral store for authentication data
-Ember.Application.initializer({
-  name: 'authentication-test',
-  initialize: function(container, application) {
-    var Ephemeral = Ember.AdmitOne.Storage.Base.extend({
-      data: null,
-      persist: function(data) { this.set('data', data); },
-      restore: function() { return this.get('data'); },
-      clear: function() { this.set('data'); }
-    });
-    application.register('auth-session-storage:ephemeral', Ephemeral);
-    application.register('auth-session-storage:test', Ephemeral);
-    App.AdmitOneContainers.storage = 'auth-session-storage:test';
-  }
-});
 
-Ember.Test.registerHelper('applicationContainer', function(app) {
-  return app.__container__;
-});
 
 Ember.LOG_VERSION = false;
 Ember.testing = true;
@@ -44,8 +26,7 @@ window.__fixture = function(name) {
   return JSON.parse(fixture);
 };
 
-// terrible hack from https://github.com/ariya/phantomjs/issues/10522
-// this is required to fix bind on phantomjs
+// PhantomJS does not implement bind - polyfill below
 if (!Function.prototype.bind) {
   Function.prototype.bind = function (oThis) {
     if (typeof this !== "function") {

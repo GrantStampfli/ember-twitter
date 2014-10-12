@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/tweets",
+    "headers": {
+      "Authorization": "Token 0053168644dd490a826f4e5b7e22791e"
+    }
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "tweets": [{
+        "timestamp": "Thu, 03 Jul 2014 17:36:53 GMT",
+        "tweet": "Fifth sample tweet",
+        "user_id": 1,
+        "id": 1,
+        "username": "dmitry"
+      }]
+    }
+  }
+}

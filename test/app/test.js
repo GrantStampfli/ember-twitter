@@ -1,37 +1,47 @@
 'use strict';
-var fixture = __fixture('example');
 
-describe('app', function() {
-	before(function () {
-		this.server = sinon.fakeServer.create();
-		this.server.autoRespond = true;
-	});
-	after(function () { this.server.restore(); });
+describe('Ember twitter appliction', function() {
 
-	beforeEach(function() {
-		var container = applicationContainer();
-		var session = container.lookup('auth-session:main');
-		session.set('content', {
-		  username: 'fake-username',
-		  token: 'fake-token'
-		});
-	});
-	afterEach(function() {
-		App.reset();
-	});
-	describe('profile page', function() {
-		beforeEach(function() {
-		 	this.server.respondWith(fixture.request.method, fixture.request.url,
-		 		[200, { 'Content-Type': 'application/json' },
-		 		 JSON.stringify(fixture.response.json)]); 
-			visit('profile');
-		});
-		it('is on profile page', function() {
-			expect(currentRouteName()).to.eql('profile');
-		});
-		it('shows posts from current user', function() {
-			expect(find('ul.barkContent li:first').text()).to
-			.eql('I\'m really excited about using this new Barker service!');
-		});
-	});
+  before(function() {
+    this.postFixture = __fixture('posttweet');
+    this.getFixture = __fixture('gettweet');
+    this.server = sinon.fakeServer.create();
+    this.server.autoRespond = true;
+  });
+
+  after(function() {
+    this.server.restore();
+  });
+
+  beforeEach(function() {
+    App.reset();
+  });
+
+  it('creates a tweet', function(done) {
+
+    // Set up Fake Server responses
+    this.server.respondWith(this.postFixture.request.method,
+      this.postFixture.request.url,
+      [this.postFixture.response.status, { 'Content-Type': 'application/json' },
+      JSON.stringify(this.postFixture.response.json)]);
+
+    this.server.respondWith(this.getFixture.request.method,
+      this.getFixture.request.url,
+      [this.getFixture.response.status, { 'Content-Type': 'application/json' },
+      JSON.stringify(this.getFixture.response.json)]);
+
+    // Execute actual test
+    visit('/submit');
+
+    fillIn('input', this.postFixture.request.json.tweet.tweet);
+    click('button');
+    andThen(function() {
+      expect(currentPath()).to.equal('tweets');
+      expect(find('.panel-title').text()).to.contain(this.getFixture.response.json.tweets[0].username);
+      expect(find('.panel-body').text()).to.contain(this.getFixture.response.json.tweets[0].tweet);
+      done();
+    }.bind(this));
+  });
+
+  it('will have more tests');
 });

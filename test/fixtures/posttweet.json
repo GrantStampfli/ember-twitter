@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/tweets",
+    "headers": {
+      "Authorization": "Token f2b35a4fd6cd458f87c6ad15a696fa8f"
+    },
+    "json": {
+      "tweet": {
+        "timestamp": "Thu, 03 Jul 2014 17:36:53 GMT",
+        "tweet": "Fifth sample tweet",
+        "user_id": 24,
+        "username": null
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "json": {
+      "tweet": {
+        "timestamp": "Thu, 03 Jul 2014 17:36:53 GMT",
+        "content": "Fifth sample tweet",
+        "user_id": 24
+      }
+    }
+  }
+}

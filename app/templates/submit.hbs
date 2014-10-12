@@ -1,0 +1,6 @@
+<form class="form-auth form-signup" role="form" {{action 'submitTweet' on='submit'}}>
+  <h2 class="form-auth-heading">Tweet here:</h2>
+  {{input id="tweet-form" class="form-control" type="username" required="true" autofocus="true" placeholder="Tweet goes here" maxlength="140" value=tweet}}
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Tweet</button>
+  {{#if error}}<div class="alert alert-danger">Error: {{error}}.</div>{{/if}}
+</form>

@@ -7,12 +7,14 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Barker</a>
+      <a class="navbar-brand" href="#">Admit One</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li>{{#link-to 'profile'}}Profile{{/link-to}}</li>
         <li>{{#if session.isAuthenticated }}{{#link-to 'logout'}}Logout{{/link-to}}{{else}}{{#link-to 'login'}}Login{{/link-to}}{{/if}}</li>
+        <li>{{#if session.isAuthenticated}}{{#link-to 'profile'}}{{session.username}}{{/link-to}}{{/if}}</li>
+        <li>{{#link-to 'tweets'}}View Tweets{{/link-to}}</li>
+        <li>{{#if session.isAuthenticated}}{{#link-to 'submit'}}Create Tweet{{/link-to}}{{/if}}</li>
       </ul>
     </div>
   </div>

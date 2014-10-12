@@ -8,12 +8,14 @@ var methodOverride = require('method-override');
 var compression = require('compression');
 var favicon = require('serve-favicon');
 var config = require('./config');
+var _ = require('lodash');
 
 var app = express();
+var config = require('./config');
 
-var models = require('./models'),
-    User = models.User,
-    Bark = models.Bark;
+var knexConfig = require('../knexfile.js')[config.env];
+var knex = require('knex')(knexConfig);
+var bookshelf = require('bookshelf')(knex);
 
 if (config.env === 'development') {
   var connectLivereload = require('connect-livereload');
@@ -31,6 +33,27 @@ if (config.env === 'production') {
 app.use(bodyParser.json());
 app.use(methodOverride());
 
+
+var User, Token, Tweet;
+User = bookshelf.Model.extend({
+  tokens: function() {
+    return this.hasMany(Token);
+  },
+  tableName: 'users'
+});
+Token = bookshelf.Model.extend({
+  user: function() {
+    return this.belongsTo(User);
+  },
+  tableName: 'tokens'
+});
+Tweet = bookshelf.Model.extend({
+  user: function() {
+    return this.belongsTo(User);
+  },
+  tableName: 'tweets'
+});
+
 var admit = require('admit-one')('bookshelf', {
   bookshelf: { modelClass: User }
 });
@@ -44,27 +67,23 @@ api.post('/users', admit.create, function(req, res) {
 
 api.post('/sessions', admit.authenticate, function(req, res) {
   // user accessible via req.auth.user
-  res.json({ status: 'ok' });
+  res.json({ session: req.auth.user });
 });
 
-api.post('/barks', function(req, res) {
-  // TODO Write bark to database
-  res.json({});
-});
-
-api.get('/barks', function(req, res){
-  Bark.fetchAll({ withRelated: 'author' })
-  .then(function(collection) {
-    var users = [];
-    var barks = collection.toJSON().map(function(model) {
-      delete model.author.passwordDigest;
-      users.push(model.author);
-      model.author = model.author_id;
-      delete model.author_id;
-      return model;
+api.get('/tweets', function(req, res) {
+  Tweet.fetchAll({withRelated: ['user']})
+  .then(function(tweets) {
+    var normalizedTweets = _.map(tweets.toJSON(), function(item) {
+      return {
+        id: item.id,
+        user_id: item.user_id,
+        tweet: item.tweet,
+        timestamp: item.timestamp,
+        username: item.user.username
+      };
     });
-    res.json({barks: barks, users: users });
-  }).done();
+    res.json({ tweets: normalizedTweets });
+  });
 });
 
 // all routes defined from here on will require authorization
@@ -72,6 +91,25 @@ api.use(admit.authorize);
 api.delete('/sessions/current', admit.invalidate, function(req, res) {
   if (req.auth.user) { throw new Error('Session not invalidated.'); }
   res.json({ status: 'ok' });
+});
+
+api.post('/tweets', function(req, res) {
+  console.log(JSON.stringify(req.headers));
+
+  var tweet = req.body.tweet;
+  new Tweet({
+    user_id: tweet.user_id,
+    tweet: tweet.tweet,
+    timestamp: tweet.timestamp
+  })
+  .save()
+  .then(res.json({
+    tweet: {
+      user_id: tweet.user_id,
+      tweet: tweet.tweet,
+      timestamp: tweet.timestamp
+    }
+  }));
 });
 
 // application routes

@@ -58,3 +58,13 @@ App.SignupController = Ember.ObjectController.extend({
     }
   }
 });
+
+App.TweetsController = Ember.ArrayController.extend({
+  itemController: 'tweet'
+});
+
+App.TweetController = Ember.ObjectController.extend({
+  displayDate: function() {
+    return this.get('timestamp').toLocaleString('en-US');
+  }.property('timestamp')
+});

@@ -2,3 +2,4 @@ node_modules
 tmp
 dist
 app/bower_components
+migrations/Old_migrations

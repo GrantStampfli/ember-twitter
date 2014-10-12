@@ -4,14 +4,15 @@ module.exports = function(App){
   var attr = DS.attr;
 
 	App.User = DS.Model.extend({
-	  username: attr('string'),
-	  password: attr('string')
+	  username: DS.attr('string'),
+	  password: DS.attr('string')
 	});
 
-	App.Bark = DS.Model.extend({
-		author: DS.belongsTo('user'),
-		date: attr('date'),
-		content: attr('string')
+	App.Tweet = DS.Model.extend({
+	  user_id: DS.attr('number'),
+	  timestamp: DS.attr('date'),
+	  tweet: DS.attr('string'),
+	  username: DS.attr('string')
 	});
 
 };

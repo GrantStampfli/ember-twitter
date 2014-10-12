@@ -1,43 +1,40 @@
-'use strict';
-
-var connection = process.env.DATABASE_URL || {
-  host     : process.env.DATABASE_HOST     || '127.0.0.1',
-  user     : process.env.DATABASE_USER     || '',
-  password : process.env.DATABASE_PASSWORD || '',
-  database : process.env.DATABASE_NAME     || 'barks'
-};
-
 module.exports = {
 
   development: {
-    client: 'postgresql',
-    connection: connection
+    client: 'postgres',
+    connection: {
+      host     : process.env.APP_DB_HOST     || '127.0.0.1',
+      user     : process.env.APP_DB_USER     || '',
+      password : process.env.APP_DB_PASSWORD || '',
+      database : process.env.APP_DB_NAME     || 'embertwitter'
+    }
   },
-
-//$ NODE_ENV='test' ./node_modules/.bin/knex migrate:latest
 
   test: {
-    client: 'postgresql',
+    client: 'postgres',
     connection: {
-      database : 'barks_test'
-    }
-  },
-
-  staging: {
-    client: 'postgresql',
-    connection: connection,
-    pool: {
-      min: 2,
-      max: 10
-    }
-  },
-
-  production: {
-    client: 'postgresql',
-    connection: connection,
-    pool: {
-      min: 2,
-      max: 10
+      host     : process.env.APP_DB_HOST     || '127.0.0.1',
+      user     : process.env.APP_DB_USER     || '',
+      password : process.env.APP_DB_PASSWORD || '',
+      database : process.env.APP_DB_NAME     || 'test_embertwitter'
     }
   }
+
+  // TODO: define productino env
+  // production: {
+  //   client: 'postgresql',
+  //   connection: {
+  //     database: 'my_db',
+  //     user:     'username',
+  //     password: 'password'
+  //   },
+  //   pool: {
+  //     min: 2,
+  //     max: 10
+  //   },
+  //   migrations: {
+  //     tableName: 'postgresql'
+  //   }
+  // }
+
 };
